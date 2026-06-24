@@ -33,6 +33,43 @@ public class HabitsController : ControllerBase
         return Ok(habits);
     }
 
+    [HttpGet("stats")]
+    public async Task<IActionResult> GetStats()
+    {
+        var habits = await _context.Habits.Where(h => h.UserId == GetUserId() && !h.IsArchived).Include(h => h.Entries).ToListAsync();
+
+        var totalCheckIns = habits.Sum(h => h.Entries.Count);
+        var totalHabits = habits.Count;
+
+        var bestStreak = 0;
+        foreach (var habit in habits)
+        {
+            var dates = habit.Entries.Select(e => e.Date).OrderBy(d => d).ToList();
+            var currentStreak = 0;
+            DateOnly? prev = null;
+            foreach (var date in dates)
+            {
+                if (prev == null || date == prev.Value.AddDays(1))
+                    currentStreak++;
+                else 
+                    currentStreak = 1;
+
+                if (currentStreak > bestStreak) bestStreak = currentStreak;
+                prev = date;
+            }
+        }
+
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+        var completedToday = habits.Count(h => h.Entries.Any(e => e.Date == today));
+
+        return Ok (new {
+            totalHabits,
+            totalCheckIns,
+            bestStreak,
+            completedToday
+        });
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] HabitDto dto)
     {
