@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace HabitTracker.API.Models;
 
 public class HabitEntry
@@ -7,5 +9,7 @@ public class HabitEntry
     public DateTime CompletedAt { get; set; } = DateTime.UtcNow;
 
     public int HabitId { get; set; }
-    public Habit Habit { get; set; } = null!; 
+    
+    [JsonIgnore]
+    public Habit Habit { get; set; } = null!;
 }
