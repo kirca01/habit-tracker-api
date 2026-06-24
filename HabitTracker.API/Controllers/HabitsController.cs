@@ -101,6 +101,22 @@ public class HabitsController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] HabitDto dto)
+    {
+        var habit = await _context.Habits.FirstOrDefaultAsync(h => h.Id == id && h.UserId == GetUserId());
+
+        if (habit == null) return NotFound();
+
+        habit.Name = dto.Name;
+        habit.Description = dto.Description;
+        habit.Color = dto.Color ?? "#6366f1";
+
+        await _context.SaveChangesAsync();
+
+        return Ok(habit);
+    }
 }
 
 public record HabitDto(string Name, string? Description, string? Color);
