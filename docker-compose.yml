@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16
+    container_name: habittracker-db
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - habittracker-data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./HabitTracker.API
+      dockerfile: Dockerfile
+    container_name: habittracker-api
+    depends_on:
+      - db
+    ports:
+      - "5230:8080"
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=${POSTGRES_DB};Username=postgres;Password=${POSTGRES_PASSWORD}"
+      Jwt__Secret: ${JWT_SECRET}
+      Jwt__ExpiryDays: "${JWT_EXPIRY_DAYS}"
+
+volumes:
+  habittracker-data:
