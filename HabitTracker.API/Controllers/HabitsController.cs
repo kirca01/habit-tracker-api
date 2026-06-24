@@ -41,6 +41,7 @@ public class HabitsController : ControllerBase
             Name = dto.Name,
             Description = dto.Description,
             Color = dto.Color ?? "#6366f1",
+            WeeklyGoal = dto.WeeklyGoal ?? 7,
             UserId = GetUserId()
         };
 
@@ -112,6 +113,7 @@ public class HabitsController : ControllerBase
         habit.Name = dto.Name;
         habit.Description = dto.Description;
         habit.Color = dto.Color ?? "#6366f1";
+        habit.WeeklyGoal = dto.WeeklyGoal ?? 7;
 
         await _context.SaveChangesAsync();
 
@@ -119,4 +121,4 @@ public class HabitsController : ControllerBase
     }
 }
 
-public record HabitDto(string Name, string? Description, string? Color);
+public record HabitDto(string Name, string? Description, string? Color, int? WeeklyGoal);

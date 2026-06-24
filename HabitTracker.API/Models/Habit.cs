@@ -8,6 +8,7 @@ public class Habit
     public string Color { get; set; } = "#6366f1";
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public bool IsArchived { get; set; } = false;
+    public int WeeklyGoal { get; set; } = 7;
 
     public int UserId { get; set; }
     public User User { get; set; } = null!;
