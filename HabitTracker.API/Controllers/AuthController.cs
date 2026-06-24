@@ -23,7 +23,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Register ([FromBody] RegisterDto dto)
     {
         if (await _context.Users.AnyAsync(u => u.Email == dto.Email))
-            return BadRequest("Email already exist!");
+            return BadRequest("Email already exists.");
 
         var user = new User
         {
@@ -44,7 +44,7 @@ public class AuthController : ControllerBase
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
         if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-            return Unauthorized("Wrong email or password!");
+            return Unauthorized("Invalid email or password.");
 
         return Ok(new { token = _tokenService.GenerateToken(user) });
     }

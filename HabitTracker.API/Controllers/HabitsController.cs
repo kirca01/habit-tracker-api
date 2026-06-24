@@ -77,7 +77,7 @@ public class HabitsController : ControllerBase
         var exists = await _context.HabitEntries
             .AnyAsync(e => e.HabitId == id && e.Date == today);
 
-        if (exists) return BadRequest("Već si označio ovu naviku danas.");
+        if (exists) return BadRequest("Habit already checked in for today.");
 
         var entry = new HabitEntry { HabitId = id, Date = today };
         _context.HabitEntries.Add(entry);
