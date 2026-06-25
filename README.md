@@ -6,9 +6,12 @@ Backend built with ASP.NET Core 10, frontend with React + TypeScript.
 
 > Frontend repo: [habit-tracker-client](https://github.com/kirca01/habit-tracker-client)
 
+![Dashboard](screenshot.png)
+
 ## Tech Stack
 
 **Backend**
+
 - ASP.NET Core 10 — Web API
 - Entity Framework Core — ORM
 - PostgreSQL — Database
@@ -17,6 +20,7 @@ Backend built with ASP.NET Core 10, frontend with React + TypeScript.
 - xUnit — Unit testing
 
 **DevOps**
+
 - Docker & Docker Compose
 
 ## Features
